@@ -101,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
         leading: IconButton(
           icon: const Icon(Icons.language),
           onPressed: () {
-            if (context.locale == const Locale('ru')) {
+            if (context.locale.toLanguageTag() == 'ru') {
               context.setLocale(const Locale('en'));
             } else {
               context.setLocale(const Locale('ru'));
