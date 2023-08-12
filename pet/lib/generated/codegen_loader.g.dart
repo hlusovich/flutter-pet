@@ -6,7 +6,7 @@ import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart' show AssetLoader;
 
-class CodegenLoader extends AssetLoader{
+class CodegenLoader extends AssetLoader {
   const CodegenLoader();
 
   @override
@@ -14,11 +14,17 @@ class CodegenLoader extends AssetLoader{
     return Future.value(mapLocales[locale.toString()]);
   }
 
-  static const Map<String,dynamic> en = {
-  "you_have_pushed_the_button_this_many_times": "You have pushed the button this many times:"
-};
-static const Map<String,dynamic> ru = {
-  "you_have_pushed_the_button_this_many_times": "Вы нажали кнопку раз:"
-};
-static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "ru": ru};
+  static const Map<String, dynamic> en = {
+    "you_have_pushed_the_button_this_many_times":
+        "You have pushed the button this many times:",
+    "flutter_demo_home_page": "Flutter Demo Home Page"
+  };
+  static const Map<String, dynamic> ru = {
+    "you_have_pushed_the_button_this_many_times": "Вы нажали кнопку раз:",
+    "flutter_demo_home_page": "Flutter Demo Домашняя Страница"
+  };
+  static const Map<String, Map<String, dynamic>> mapLocales = {
+    "en": en,
+    "ru": ru
+  };
 }
