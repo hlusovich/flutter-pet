@@ -6,6 +6,7 @@ import 'package:pet/generated/locale_keys.g.dart';
 import 'package:pet/shared/flow_menu/entities/menu_item.entity.dart';
 import 'package:pet/shared/flow_menu/enum/flow_menu.enum.dart';
 
+import 'entities/locale.entity.dart';
 import 'features/introduction-screen/presentation/introduction.dart';
 import 'shared/flow_menu/flow_menu.dart';
 
@@ -15,10 +16,13 @@ void main() async {
 
   runApp(
     EasyLocalization(
-        supportedLocales: const [Locale('en'), Locale('ru')],
+        supportedLocales: [
+          Locale(LocaleEnum.eng.value),
+          Locale(LocaleEnum.ru.value)
+        ],
         path: 'assets/translations',
         assetLoader: const CodegenLoader(),
-        fallbackLocale: const Locale('en'),
+        fallbackLocale: Locale(LocaleEnum.eng.value),
         child: const MyApp()),
   );
 }
@@ -54,10 +58,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   void _setLocale() {
-    if (context.locale.toLanguageTag() == 'ru') {
-      context.setLocale(const Locale('en'));
+    final currentLanguage = context.locale.toLanguageTag();
+
+    if (currentLanguage == LocaleEnum.ru.value) {
+      context.setLocale(Locale(LocaleEnum.eng.value));
     } else {
-      context.setLocale(const Locale('ru'));
+      context.setLocale(Locale(LocaleEnum.ru.value));
     }
   }
 
