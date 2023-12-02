@@ -1,15 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pet/features/game_field/presentation/game_field.widget.dart';
-import 'package:pet/features/introduction-screen/presentation/introduction_screen.dart';
 import 'package:pet/generated/codegen_loader.g.dart';
 import 'package:pet/generated/locale_keys.g.dart';
-import 'package:pet/shared/flow_menu/entities/menu_item.entity.dart';
-import 'package:pet/shared/flow_menu/enum/flow_menu.enum.dart';
 
 import 'entities/locale.entity.dart';
-import 'features/introduction-screen/presentation/introduction.dart';
-import 'shared/flow_menu/flow_menu.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: const GameField(wide: 10, height: 15,),
+      body: const GameField(width: 10, height: 15,),
     );
   }
 }
