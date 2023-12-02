@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:pet/features/tetris/features/game_field/presentation/enums/shape.enum.dart';
+import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/shape.enum.dart';
 
 class Shape extends StatelessWidget {
   final ShapesEnum shape;

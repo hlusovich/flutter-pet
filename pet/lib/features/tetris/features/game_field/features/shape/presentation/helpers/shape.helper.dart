@@ -1,6 +1,8 @@
-import 'package:pet/features/tetris/features/game_field/presentation/enums/shape.enum.dart';
+import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/shape.enum.dart';
 
 abstract final class PositionHelper {
+  static int maxCoordinatesLength = 4;
+
   static List<int> getCoordinates({
     required ShapesEnum shape,
     required int fieldWidth,
@@ -11,8 +13,16 @@ abstract final class PositionHelper {
         return _getLShapeCoordinates(position: position, fieldWidth: fieldWidth);
       case ShapesEnum.j:
         return _getJShapeCoordinates(position: position, fieldWidth: fieldWidth);
-      default:
-        return [];
+      case ShapesEnum.o:
+        return _getOShapeCoordinates(position: position, fieldWidth: fieldWidth);
+      case ShapesEnum.s:
+        return _getSShapeCoordinates(position: position, fieldWidth: fieldWidth);
+      case ShapesEnum.z:
+        return _getZShapeCoordinates(position: position, fieldWidth: fieldWidth);
+      case ShapesEnum.t:
+        return _getTShapeCoordinates(position: position, fieldWidth: fieldWidth);
+      case ShapesEnum.i:
+        return _getIShapeCoordinates(position: position);
     }
   }
 
@@ -21,8 +31,8 @@ abstract final class PositionHelper {
       position,
     ];
 
-    for (int i = 1; i < ShapesEnum.l.length; i++) {
-      if (i != ShapesEnum.l.length - 1) {
+    for (int i = 1; i < maxCoordinatesLength; i++) {
+      if (i != maxCoordinatesLength - 1) {
         shapeCoordinates.add(shapeCoordinates.last + fieldWidth);
       } else {
         shapeCoordinates.add(shapeCoordinates.last + 1);
@@ -37,11 +47,87 @@ abstract final class PositionHelper {
       position,
     ];
 
-    for (int i = 1; i < ShapesEnum.l.length; i++) {
-      if (i != ShapesEnum.l.length - 1) {
+    for (int i = 1; i < maxCoordinatesLength; i++) {
+      if (i != maxCoordinatesLength - 1) {
         shapeCoordinates.add(shapeCoordinates.last + fieldWidth);
       } else {
         shapeCoordinates.add(shapeCoordinates.last - 1);
+      }
+    }
+
+    return shapeCoordinates;
+  }
+
+  static List<int> _getIShapeCoordinates({required int position}) {
+    final shapeCoordinates = [
+      position,
+    ];
+
+    for (int i = 1; i < maxCoordinatesLength; i++) {
+      shapeCoordinates.add(shapeCoordinates.last + 1);
+    }
+
+    return shapeCoordinates;
+  }
+
+  static List<int> _getOShapeCoordinates({required int position, required int fieldWidth}) {
+    final shapeCoordinates = [
+      position,
+    ];
+
+    for (int i = 1; i < maxCoordinatesLength; i++) {
+      if (i == maxCoordinatesLength - 2) {
+        shapeCoordinates.add(position + fieldWidth);
+      } else {
+        shapeCoordinates.add(shapeCoordinates.last + 1);
+      }
+    }
+
+    return shapeCoordinates;
+  }
+
+  static List<int> _getSShapeCoordinates({required int position, required int fieldWidth}) {
+    final shapeCoordinates = [
+      position,
+    ];
+
+    for (int i = 1; i < maxCoordinatesLength; i++) {
+      if (i == maxCoordinatesLength - 2) {
+        shapeCoordinates.add(position + fieldWidth + 1);
+      } else {
+        shapeCoordinates.add(shapeCoordinates.last + 1);
+      }
+    }
+
+    return shapeCoordinates;
+  }
+
+  static List<int> _getTShapeCoordinates({required int position, required int fieldWidth}) {
+    final shapeCoordinates = [
+      position,
+    ];
+
+    for (int i = 1; i < maxCoordinatesLength; i++) {
+      if (i != maxCoordinatesLength - 1) {
+        shapeCoordinates.add(shapeCoordinates.last + fieldWidth);
+      } else {
+        shapeCoordinates.add(shapeCoordinates.last + 1 - fieldWidth);
+      }
+    }
+
+    return shapeCoordinates;
+  }
+
+  static List<int> _getZShapeCoordinates({required int position, required int fieldWidth}) {
+    final shapeCoordinates = [
+      position,
+    ];
+
+    for (int i = 1; i < maxCoordinatesLength; i++) {
+      if (i == maxCoordinatesLength - 2) {
+        shapeCoordinates.add(position + fieldWidth - 1);
+      } else {
+        shapeCoordinates.add(shapeCoordinates.last + 1);
       }
     }
 
