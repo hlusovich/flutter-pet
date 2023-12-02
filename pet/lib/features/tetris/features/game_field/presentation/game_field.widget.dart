@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:pet/features/tetris/domain/enums/difficulties.enum.dart';
 import 'package:pet/features/tetris/domain/helpers/update_frame.helper.dart';
 import 'package:pet/features/tetris/features/game_field/features/cell/presentation/cell.widget.dart';
@@ -10,7 +9,6 @@ import 'package:pet/features/tetris/features/game_field/presentation/domain/enum
 import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/collisions.helper.dart';
 import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/move.helper.dart';
 import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/shape.helper.dart';
-
 
 class GameField extends StatefulWidget {
   final int width;
@@ -24,11 +22,15 @@ class GameField extends StatefulWidget {
 
 class _GameFieldState extends State<GameField> {
   int get fieldArea => widget.height * widget.width;
-  List<int> coordinates = PositionHelper.getCoordinates(shape: ShapesEnum.t, fieldWidth: 10, position: 4);
+  static const int initialPosition = -24;
+  late List<Color?> occupiedCells;
+  late Timer interval;
+  late List<int> coordinates;
 
   @override
   void initState() {
     super.initState();
+    reset();
     startGame();
   }
 
@@ -38,23 +40,63 @@ class _GameFieldState extends State<GameField> {
   }
 
   void updateFrame(Duration frameRate) {
-    Timer.periodic(frameRate, (timer) {
+    interval = Timer.periodic(frameRate, (timer) {
       setState(() {
-        final isCollision = CollisionsHelper.isCollision(direction: DirectionEnum.left,
-            coordinates: coordinates,
-            fieldWidth: widget.width,
-            fieldHeight: widget.height,);
+        final isBottomScreenCollision = CollisionsHelper.isScreenCollision(
+          direction: DirectionEnum.down,
+          coordinates: coordinates,
+          fieldWidth: widget.width,
+          fieldHeight: widget.height,
+        );
 
-        if(isCollision) {
+        final isOccupiedCollision = CollisionsHelper.isOccupiedCollision<Color?>(
+          coordinates: coordinates,
+          fieldWidth: widget.width,
+          occupied: occupiedCells,
+        );
+
+        final isCollision = isBottomScreenCollision || isOccupiedCollision;
+
+        if (isCollision) {
+          final isOutOfFieldCollision = coordinates.any((coordinate) {
+            return !CollisionsHelper.isInsideOfFieldCollision(
+                coordinate: coordinate, maxCoordinate: occupiedCells.length);
+          });
+
+          coordinates.forEach((coordinate) {
+            if (CollisionsHelper.isInsideOfFieldCollision(
+                coordinate: coordinate, maxCoordinate: occupiedCells.length)) {
+              occupiedCells[coordinate] = Colors.green;
+            }
+          });
+
+          if (isOutOfFieldCollision) {
+            gameOver();
+            return;
+          }
+
+          coordinates = createNew();
           return;
         }
 
         coordinates =
-            MoveHelper.move(coordinates: coordinates, direction: DirectionEnum.left, fieldWidth: widget.width);
+            MoveHelper.move(coordinates: coordinates, direction: DirectionEnum.down, fieldWidth: widget.width);
       });
     });
   }
 
+  List<int> createNew() {
+    return PositionHelper.getCoordinates(shape: ShapesEnum.t, fieldWidth: 10, position: initialPosition);
+  }
+
+  void gameOver() {
+    reset();
+  }
+
+  void reset() {
+    occupiedCells = List.filled(10 * 15, null);
+    coordinates = createNew();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,22 +106,30 @@ class _GameFieldState extends State<GameField> {
         itemCount: fieldArea,
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: widget.width),
-        itemBuilder: (context, index) =>
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(1),
-                child: Builder(builder: (_) {
-                  if (coordinates.contains(index)) {
-                    return const Cell(
-                      color: Colors.yellow,
-                    );
-                  }
-                  return const Cell(
-                    color: Colors.redAccent,
-                  );
-                }),
-              ),
-            ),
+        itemBuilder: (context, index) => Center(
+          child: Padding(
+            padding: const EdgeInsets.all(1),
+            child: Builder(builder: (_) {
+              if (coordinates.contains(index)) {
+                return const Cell(
+                  color: Colors.yellow,
+                );
+              }
+
+              final occupiedColor = occupiedCells[index];
+
+              if (occupiedColor != null) {
+                return Cell(
+                  color: occupiedColor,
+                );
+              }
+
+              return const Cell(
+                color: Colors.redAccent,
+              );
+            }),
+          ),
+        ),
       ),
     );
   }
