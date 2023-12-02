@@ -3,14 +3,18 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:pet/features/tetris/domain/enums/difficulties.enum.dart';
+import 'package:pet/features/tetris/domain/helpers/colors.helper.dart';
+import 'package:pet/features/tetris/domain/helpers/shapes.helper.dart';
 import 'package:pet/features/tetris/domain/helpers/update_frame.helper.dart';
+import 'package:pet/features/tetris/features/game_field/domain/models/shape.model.dart';
 import 'package:pet/features/tetris/features/game_field/features/cell/presentation/cell.widget.dart';
 import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/direction.enum.dart';
-import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/shape.enum.dart';
 import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/collisions.helper.dart';
 import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/game_field.helper.dart';
 import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/move.helper.dart';
+import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/occupied_collisions.helper.dart';
 import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/remove_line.helper.dart';
+import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/screen_collisions.helper.dart';
 import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/shape.helper.dart';
 
 class GameField extends StatefulWidget {
@@ -26,55 +30,35 @@ class GameField extends StatefulWidget {
 class _GameFieldState extends State<GameField> {
   int get fieldArea => widget.height * widget.width;
 
-  int get initialPosition => -20 - (widget.width / 2).floor();
+  int get initialPosition => -20 - (widget.width / 2).floor() - 1;
   late List<Color?> occupiedCells;
   late Timer interval;
-  late List<int> coordinates;
+  late Shape currentShape;
 
   @override
   void initState() {
     super.initState();
     reset();
     startGame();
-
-    for (int cellIndex = 0; cellIndex < occupiedCells.length; cellIndex++) {
-      if (cellIndex > 120 && cellIndex < 125) {
-        occupiedCells[cellIndex] = Colors.amber;
-      }
-
-      if (cellIndex > 128) {
-        if (cellIndex == 146) {
-          continue;
-        }
-
-        if (cellIndex == 136) {
-          continue;
-        }
-        if (cellIndex == 137) {
-          continue;
-        }
-        occupiedCells[cellIndex] = Colors.pink;
-      }
-    }
   }
 
   void startGame() {
-    Duration frameRate = UpdateFrameHelper.getUpdateFrameDuration(DifficultiesEnum.hard);
+    Duration frameRate = UpdateFrameHelper.getUpdateFrameDuration(DifficultiesEnum.easy);
     updateFrame(frameRate);
   }
 
   void updateFrame(Duration frameRate) {
     interval = Timer.periodic(frameRate, (timer) {
       setState(() {
-        final isBottomScreenCollision = CollisionsHelper.isScreenCollision(
+        final isBottomScreenCollision = ScreenCollisionsHelper.isCollision(
           direction: DirectionEnum.down,
-          coordinates: coordinates,
+          coordinates: currentShape.coordinates,
           fieldWidth: widget.width,
           fieldHeight: widget.height,
         );
 
-        final isOccupiedCollision = CollisionsHelper.isOccupiedCollision<Color?>(
-          coordinates: coordinates,
+        final isOccupiedCollision = OccupiedCollisionsHelper.isDownCollision<Color?>(
+          coordinates: currentShape.coordinates,
           fieldWidth: widget.width,
           occupied: occupiedCells,
         );
@@ -82,15 +66,15 @@ class _GameFieldState extends State<GameField> {
         final isCollision = isBottomScreenCollision || isOccupiedCollision;
 
         if (isCollision) {
-          final isOutOfFieldCollision = coordinates.any((coordinate) {
+          final isOutOfFieldCollision = currentShape.coordinates.any((coordinate) {
             return !CollisionsHelper.isInsideOfFieldCollision(
                 coordinate: coordinate, maxCoordinate: occupiedCells.length);
           });
 
-          coordinates.forEach((coordinate) {
+          currentShape.coordinates.forEach((coordinate) {
             if (CollisionsHelper.isInsideOfFieldCollision(
                 coordinate: coordinate, maxCoordinate: occupiedCells.length)) {
-              occupiedCells[coordinate] = Colors.green;
+              occupiedCells[coordinate] = currentShape.color;
             }
           });
 
@@ -104,24 +88,35 @@ class _GameFieldState extends State<GameField> {
             fieldHeight: widget.height,
             fieldWidth: widget.width,
           );
-          coordinates = createNew();
+          currentShape = createNew();
           removeLines(removeLineMap);
 
           return;
         }
 
-        coordinates =
-            MoveHelper.move(coordinates: coordinates, direction: DirectionEnum.down, fieldWidth: widget.width);
+        currentShape = updatePositionByDirection(shape: currentShape, direction: DirectionEnum.down);
       });
     });
   }
 
-  List<int> createNew() {
-    return PositionHelper.getCoordinates(shape: getRandomShape(), fieldWidth: 10, position: initialPosition);
+  Shape createNew() {
+    return Shape(
+        color: ColorsHelper.getRandomColor(),
+        coordinates: PositionHelper.getCoordinates(
+            shape: ShapesHelper.getRandomShape(), fieldWidth: widget.width, position: initialPosition));
   }
 
-  ShapesEnum getRandomShape() {
-    return ShapesEnum.values[Random().nextInt(ShapesEnum.values.length)];
+  Shape updatePositionByDirection({
+    required Shape shape,
+    required DirectionEnum direction,
+  }) {
+    return shape.copyWith(
+      coordinates: MoveHelper.move(
+        coordinates: shape.coordinates,
+        direction: direction,
+        fieldWidth: widget.width,
+      ),
+    );
   }
 
   void gameOver() {
@@ -130,7 +125,7 @@ class _GameFieldState extends State<GameField> {
 
   void reset() {
     occupiedCells = List.filled(10 * 15, null);
-    coordinates = createNew();
+    currentShape = createNew();
   }
 
   void removeLines(Map<int, bool> removeLineMap) {
@@ -172,37 +167,94 @@ class _GameFieldState extends State<GameField> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: GridView.builder(
-        itemCount: fieldArea,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: widget.width),
-        itemBuilder: (context, index) => Center(
-          child: Padding(
-            padding: const EdgeInsets.all(1),
-            child: Builder(builder: (_) {
-              if (coordinates.contains(index)) {
-                return const Cell(
-                  color: Colors.yellow,
-                );
-              }
+    return Column(
+      children: [
+        Expanded(
+          child: GridView.builder(
+            itemCount: fieldArea,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: widget.width),
+            itemBuilder: (context, index) => Center(
+              child: Padding(
+                padding: const EdgeInsets.all(1),
+                child: Builder(builder: (_) {
+                  if (currentShape.coordinates.contains(index)) {
+                    return Cell(
+                      color: currentShape.color,
+                    );
+                  }
 
-              final occupiedColor = occupiedCells[index];
+                  final occupiedColor = occupiedCells[index];
 
-              if (occupiedColor != null) {
-                return Cell(
-                  color: occupiedColor,
-                );
-              }
+                  if (occupiedColor != null) {
+                    return Cell(
+                      color: occupiedColor,
+                    );
+                  }
 
-              return const Cell(
-                color: Colors.redAccent,
-              );
-            }),
+                  return const Cell(
+                    color: Colors.redAccent,
+                  );
+                }),
+              ),
+            ),
           ),
         ),
-      ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            IconButton(
+              onPressed: () {
+                if (ScreenCollisionsHelper.isCollision(
+                      direction: DirectionEnum.left,
+                      coordinates: currentShape.coordinates,
+                      fieldWidth: widget.width,
+                      fieldHeight: widget.height,
+                    ) ||
+                    OccupiedCollisionsHelper.isLeftCollision(
+                        coordinates: currentShape.coordinates, occupied: occupiedCells, fieldWidth: widget.width)) {
+                  return;
+                }
+                currentShape = updatePositionByDirection(shape: currentShape, direction: DirectionEnum.left);
+                setState(() {});
+              },
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                size: 32,
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.rotate_right,
+                size: 40,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                if (ScreenCollisionsHelper.isCollision(
+                      direction: DirectionEnum.right,
+                      coordinates: currentShape.coordinates,
+                      fieldWidth: widget.width,
+                      fieldHeight: widget.height,
+                    ) ||
+                    OccupiedCollisionsHelper.isRightCollision(
+                        coordinates: currentShape.coordinates, occupied: occupiedCells, fieldWidth: widget.width)) {
+                  return;
+                }
+
+                currentShape = updatePositionByDirection(shape: currentShape, direction: DirectionEnum.right);
+                setState(() {});
+              },
+              icon: const Icon(
+                Icons.arrow_forward_ios,
+                size: 32,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
