@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:pet/features/tetris/domain/enums/difficulties.enum.dart';
@@ -7,7 +8,9 @@ import 'package:pet/features/tetris/features/game_field/features/cell/presentati
 import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/direction.enum.dart';
 import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/shape.enum.dart';
 import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/collisions.helper.dart';
+import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/game_field.helper.dart';
 import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/move.helper.dart';
+import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/remove_line.helper.dart';
 import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/shape.helper.dart';
 
 class GameField extends StatefulWidget {
@@ -32,6 +35,26 @@ class _GameFieldState extends State<GameField> {
     super.initState();
     reset();
     startGame();
+
+    for (int cellIndex = 0; cellIndex < occupiedCells.length; cellIndex++) {
+      if (cellIndex > 120 && cellIndex < 125) {
+        occupiedCells[cellIndex] = Colors.amber;
+      }
+
+      if (cellIndex > 128) {
+        if (cellIndex == 146) {
+          continue;
+        }
+
+        if (cellIndex == 136) {
+          continue;
+        }
+        if (cellIndex == 137) {
+          continue;
+        }
+        occupiedCells[cellIndex] = Colors.pink;
+      }
+    }
   }
 
   void startGame() {
@@ -75,7 +98,14 @@ class _GameFieldState extends State<GameField> {
             return;
           }
 
+          final Map<int, bool> removeLineMap = RemoveLineHelper.getRemoveLineMap(
+            occupiedCells: occupiedCells,
+            fieldHeight: widget.height,
+            fieldWidth: widget.width,
+          );
           coordinates = createNew();
+          removeLines(removeLineMap);
+
           return;
         }
 
@@ -96,6 +126,43 @@ class _GameFieldState extends State<GameField> {
   void reset() {
     occupiedCells = List.filled(10 * 15, null);
     coordinates = createNew();
+  }
+
+  void removeLines(Map<int, bool> removeLineMap) {
+    final List<Color?> newOccupiedCells = [];
+    final Set<int> removedLines = {};
+
+    for (int cellIndex = 0; cellIndex < occupiedCells.length; cellIndex++) {
+      final mapKey = GameFieldHelper.getRow(index: cellIndex, fieldWidth: widget.width);
+
+      if (removeLineMap[mapKey] == true) {
+        newOccupiedCells.add(null);
+        removedLines.add(mapKey);
+        continue;
+      }
+
+      newOccupiedCells.add(occupiedCells[cellIndex]);
+    }
+
+    occupiedCells = newOccupiedCells;
+    _recalculateOccupiedCells(removedLines);
+  }
+
+  void _recalculateOccupiedCells(Set<int> removedLines) {
+    if (removedLines.isEmpty) {
+      return;
+    }
+
+    final lowestRemovedRowIndex = removedLines.reduce(max);
+    for (int cellIndex = occupiedCells.length; cellIndex > 0; cellIndex--) {
+      final mapKey = GameFieldHelper.getRow(index: cellIndex, fieldWidth: widget.width);
+
+      if (mapKey < lowestRemovedRowIndex && occupiedCells[cellIndex] != null) {
+        final cellValue = occupiedCells[cellIndex];
+        occupiedCells[cellIndex] = null;
+        occupiedCells[cellIndex + widget.width * removedLines.length] = cellValue;
+      }
+    }
   }
 
   @override

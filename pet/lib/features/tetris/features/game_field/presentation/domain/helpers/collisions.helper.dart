@@ -1,4 +1,5 @@
 import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/direction.enum.dart';
+import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/game_field.helper.dart';
 
 abstract final class CollisionsHelper {
   static bool isScreenCollision({
@@ -47,17 +48,20 @@ abstract final class CollisionsHelper {
   }
 
   static bool _isRightScreenCollision({required List<int> coordinates, required int fieldWidth}) {
-    return coordinates
-        .any(((coordinate) => ((coordinate + 1) / fieldWidth).floor() > ((coordinate) / fieldWidth).floor()));
+    return coordinates.any(((coordinate) =>
+        GameFieldHelper.getRow(index: coordinate + 1, fieldWidth: fieldWidth) >
+        GameFieldHelper.getRow(index: coordinate, fieldWidth: fieldWidth)));
   }
 
   static bool _isLeftScreenCollision({required List<int> coordinates, required int fieldWidth}) {
-    return coordinates
-        .any(((coordinate) => ((coordinate - 1) / fieldWidth).floor() < ((coordinate) / fieldWidth).floor()));
+    return coordinates.any(((coordinate) =>
+        GameFieldHelper.getRow(index: coordinate - 1, fieldWidth: fieldWidth) <
+        GameFieldHelper.getRow(index: coordinate, fieldWidth: fieldWidth)));
   }
 
   static bool _isDownScreenCollision(
       {required List<int> coordinates, required int fieldWidth, required int fieldHeight}) {
-    return coordinates.any(((coordinate) => ((coordinate + fieldWidth) / fieldWidth).floor() >= fieldHeight));
+    return coordinates.any(((coordinate) =>
+        GameFieldHelper.getRow(index: coordinate + fieldWidth, fieldWidth: fieldWidth) >= fieldHeight));
   }
 }
