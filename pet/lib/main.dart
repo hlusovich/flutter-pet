@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:pet/features/game_field/presentation/game_field.widget.dart';
 import 'package:pet/features/introduction-screen/presentation/introduction_screen.dart';
 import 'package:pet/generated/codegen_loader.g.dart';
 import 'package:pet/generated/locale_keys.g.dart';
@@ -74,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: IntroductionScreen(),
+      body: const GameField(wide: 10, height: 15,),
     );
   }
 }
