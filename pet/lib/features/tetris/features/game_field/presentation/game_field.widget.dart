@@ -23,7 +23,7 @@ class GameField extends StatefulWidget {
 
 class _GameFieldState extends State<GameField> {
   int get fieldArea => widget.height * widget.width;
-  List<int> coordinates = PositionHelper.getCoordinates(shape: ShapesEnum.l, fieldWidth: 10, position: 4);
+  List<int> coordinates = PositionHelper.getCoordinates(shape: ShapesEnum.j, fieldWidth: 10, position: 4);
 
   @override
   void initState() {
