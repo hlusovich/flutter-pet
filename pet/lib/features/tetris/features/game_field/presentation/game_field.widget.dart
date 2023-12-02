@@ -25,7 +25,8 @@ class GameField extends StatefulWidget {
 
 class _GameFieldState extends State<GameField> {
   int get fieldArea => widget.height * widget.width;
-  static const int initialPosition = -24;
+
+  int get initialPosition => -20 - (widget.width / 2).floor();
   late List<Color?> occupiedCells;
   late Timer interval;
   late List<int> coordinates;
@@ -116,7 +117,11 @@ class _GameFieldState extends State<GameField> {
   }
 
   List<int> createNew() {
-    return PositionHelper.getCoordinates(shape: ShapesEnum.t, fieldWidth: 10, position: initialPosition);
+    return PositionHelper.getCoordinates(shape: getRandomShape(), fieldWidth: 10, position: initialPosition);
+  }
+
+  ShapesEnum getRandomShape() {
+    return ShapesEnum.values[Random().nextInt(ShapesEnum.values.length)];
   }
 
   void gameOver() {
