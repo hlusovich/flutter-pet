@@ -5,10 +5,11 @@ import 'package:flutter/widgets.dart';
 import 'package:pet/features/tetris/domain/enums/difficulties.enum.dart';
 import 'package:pet/features/tetris/domain/helpers/update_frame.helper.dart';
 import 'package:pet/features/tetris/features/game_field/features/cell/presentation/cell.widget.dart';
-import 'package:pet/features/tetris/features/game_field/features/shape/presentation/helpers/move.helper.dart';
-import 'package:pet/features/tetris/features/game_field/features/shape/presentation/helpers/shape.helper.dart';
 import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/direction.enum.dart';
 import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/shape.enum.dart';
+import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/collisions.helper.dart';
+import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/move.helper.dart';
+import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/shape.helper.dart';
 
 
 class GameField extends StatefulWidget {
@@ -39,16 +40,21 @@ class _GameFieldState extends State<GameField> {
   void updateFrame(Duration frameRate) {
     Timer.periodic(frameRate, (timer) {
       setState(() {
-        coordinates = MoveHelper.move(coordinates: coordinates, direction: DirectionEnum.down, fieldWidth: 10);
+        final isCollision = CollisionsHelper.isCollision(direction: DirectionEnum.left,
+            coordinates: coordinates,
+            fieldWidth: widget.width,
+            fieldHeight: widget.height,);
+
+        if(isCollision) {
+          return;
+        }
+
+        coordinates =
+            MoveHelper.move(coordinates: coordinates, direction: DirectionEnum.left, fieldWidth: widget.width);
       });
     });
   }
 
-  void isCollision({required DirectionEnum direction, required List<int> coordinates}) {
-
-
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,21 +64,22 @@ class _GameFieldState extends State<GameField> {
         itemCount: fieldArea,
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: widget.width),
-        itemBuilder: (context, index) => Center(
-          child: Padding(
-            padding: const EdgeInsets.all(1),
-            child: Builder(builder: (_) {
-              if (coordinates.contains(index)) {
-                return const Cell(
-                  color: Colors.yellow,
-                );
-              }
-              return const Cell(
-                color: Colors.redAccent,
-              );
-            }),
-          ),
-        ),
+        itemBuilder: (context, index) =>
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(1),
+                child: Builder(builder: (_) {
+                  if (coordinates.contains(index)) {
+                    return const Cell(
+                      color: Colors.yellow,
+                    );
+                  }
+                  return const Cell(
+                    color: Colors.redAccent,
+                  );
+                }),
+              ),
+            ),
       ),
     );
   }
