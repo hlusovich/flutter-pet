@@ -7,8 +7,8 @@ import 'package:pet/features/tetris/domain/helpers/update_frame.helper.dart';
 import 'package:pet/features/tetris/features/game_field/features/cell/presentation/cell.widget.dart';
 import 'package:pet/features/tetris/features/game_field/features/shape/presentation/helpers/move.helper.dart';
 import 'package:pet/features/tetris/features/game_field/features/shape/presentation/helpers/shape.helper.dart';
-import 'package:pet/features/tetris/features/game_field/presentation/enums/direction.enum.dart';
-import 'package:pet/features/tetris/features/game_field/presentation/enums/shape.enum.dart';
+import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/direction.enum.dart';
+import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/shape.enum.dart';
 
 
 class GameField extends StatefulWidget {
@@ -23,7 +23,7 @@ class GameField extends StatefulWidget {
 
 class _GameFieldState extends State<GameField> {
   int get fieldArea => widget.height * widget.width;
-  List<int> coordinates = PositionHelper.getCoordinates(shape: ShapesEnum.j, fieldWidth: 10, position: 4);
+  List<int> coordinates = PositionHelper.getCoordinates(shape: ShapesEnum.t, fieldWidth: 10, position: 4);
 
   @override
   void initState() {
@@ -42,6 +42,12 @@ class _GameFieldState extends State<GameField> {
         coordinates = MoveHelper.move(coordinates: coordinates, direction: DirectionEnum.down, fieldWidth: 10);
       });
     });
+  }
+
+  void isCollision({required DirectionEnum direction, required List<int> coordinates}) {
+
+
+
   }
 
   @override
