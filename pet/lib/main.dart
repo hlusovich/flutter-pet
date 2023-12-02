@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:pet/features/game_field/presentation/game_field.widget.dart';
+import 'package:pet/features/tetris/features/game_field/presentation/game_field.widget.dart';
 import 'package:pet/generated/codegen_loader.g.dart';
 import 'package:pet/generated/locale_keys.g.dart';
 

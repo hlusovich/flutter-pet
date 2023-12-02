@@ -1,7 +1,7 @@
-import 'package:pet/features/game_field/presentation/enums/shape.enum.dart';
+import 'package:pet/features/tetris/features/game_field/presentation/enums/shape.enum.dart';
 
-abstract final class ShapeHelper {
-  static List<int>  getCoordinates({
+abstract final class PositionHelper {
+  static List<int> getCoordinates({
     required ShapesEnum shape,
     required int fieldWidth,
     required int position,
