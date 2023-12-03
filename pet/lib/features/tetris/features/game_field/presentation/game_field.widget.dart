@@ -18,46 +18,40 @@ class GameField extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.read<ThemeBloc>().state.theme;
 
-    return Column(
-      children: [
-        Expanded(
-          child: GridView.builder(
-            itemCount: itemCount,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: width),
-            itemBuilder: (context, index) => Center(
-              child: Padding(
-                padding: const EdgeInsets.all(2),
-                    child: Builder(builder: (_) {
-                      final currentShape = shape;
+    return GridView.builder(
+      itemCount: itemCount,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: width),
+      itemBuilder: (context, index) => Center(
+        child: Padding(
+          padding: const EdgeInsets.all(2),
+          child: Builder(builder: (_) {
+            final currentShape = shape;
 
-                      if (currentShape == null) {
-                        return const Cell();
-                      }
+            if (currentShape == null) {
+              return const Cell();
+            }
 
-                      if (currentShape.coordinates.contains(index)) {
-                        return Cell(
-                          color: currentShape.color,
-                        );
-                  }
+            if (currentShape.coordinates.contains(index)) {
+              return Cell(
+                color: currentShape.color,
+              );
+            }
 
-                  final occupiedColor = occupiedCells[index];
+            final occupiedColor = occupiedCells[index];
 
-                  if (occupiedColor != null) {
-                    return Cell(
-                      color: occupiedColor,
-                    );
-                  }
+            if (occupiedColor != null) {
+              return Cell(
+                color: occupiedColor,
+              );
+            }
 
-                  return Cell(
-                    color: theme.card,
-                  );
-                }),
-                  ),
-                ),
-          ),
+            return Cell(
+              color: theme.card,
+            );
+          }),
         ),
-      ],
+      ),
     );
   }
 }

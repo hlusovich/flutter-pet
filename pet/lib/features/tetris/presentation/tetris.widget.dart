@@ -56,32 +56,37 @@ class _TetrisState extends State<Tetris> {
         BlocProvider.value(value: gameFieldBloc),
         BlocProvider.value(value: audioBloc),
       ],
-      child: Scaffold(
-        backgroundColor: context.watch<ThemeBloc>().state.theme.background,
-        body: Column(
-          children: [
-            Expanded(
-              child: Builder(builder: (context) {
-                return BlocBuilder<TetrisGameFieldBloc, TetrisGameFieldState>(builder: (context, state) {
-                  return GameField(
-                    width: state.width,
-                    height: state.height,
-                    occupiedCells: state.occupiedCells,
-                    shape: state.currentShape,
-                  );
-                });
-              }),
+      child: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 400),
+          child: Scaffold(
+            backgroundColor: context.watch<ThemeBloc>().state.theme.background,
+            body: Column(
+              children: [
+                Expanded(
+                  child: Builder(builder: (context) {
+                    return BlocBuilder<TetrisGameFieldBloc, TetrisGameFieldState>(builder: (context, state) {
+                      return GameField(
+                        width: state.width,
+                        height: state.height,
+                        occupiedCells: state.occupiedCells,
+                        shape: state.currentShape,
+                      );
+                    });
+                  }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: GameControllers(
+                    bloc: gameFieldBloc,
+                  ),
+                ),
+                const SizedBox(
+                  height: 24,
+                )
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: GameControllers(
-                bloc: gameFieldBloc,
-              ),
-            ),
-            const SizedBox(
-              height: 24,
-            )
-          ],
+          ),
         ),
       ),
     );
