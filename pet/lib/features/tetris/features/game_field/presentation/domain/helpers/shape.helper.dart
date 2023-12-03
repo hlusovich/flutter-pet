@@ -1,4 +1,4 @@
-import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/shape.enum.dart';
+import 'package:game_box/features/tetris/features/game_field/presentation/domain/enums/shape.enum.dart';
 
 abstract final class PositionHelper {
   static int maxCoordinatesLength = 4;

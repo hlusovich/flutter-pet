@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet/shared/selection_dots/selection_dot/selection_dot.dart';
+import 'package:game_box/shared/selection_dots/selection_dot/selection_dot.dart';
 
 class SelectionDots extends StatefulWidget {
   static const _defaultGap = 8.0;

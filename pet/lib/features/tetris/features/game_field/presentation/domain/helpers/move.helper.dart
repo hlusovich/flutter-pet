@@ -1,5 +1,5 @@
 
-import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/direction.enum.dart';
+import 'package:game_box/features/tetris/features/game_field/presentation/domain/enums/direction.enum.dart';
 
 abstract final class MoveHelper {
   static List<int> move({

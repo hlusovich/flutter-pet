@@ -1,10 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:pet/features/tetris/presentation/tetris.widget.dart';
-import 'package:pet/generated/codegen_loader.g.dart';
-import 'package:pet/generated/locale_keys.g.dart';
-
-import 'entities/locale.entity.dart';
+import 'package:game_box/core/entities/locale.entity.dart';
+import 'package:game_box/features/tetris/presentation/tetris.widget.dart';
+import 'package:game_box/generated/codegen_loader.g.dart';
+import 'package:game_box/generated/locale_keys.g.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,10 +11,7 @@ void main() async {
 
   runApp(
     EasyLocalization(
-        supportedLocales: [
-          Locale(LocaleEnum.eng.value),
-          Locale(LocaleEnum.ru.value)
-        ],
+        supportedLocales: [Locale(LocaleEnum.eng.value), Locale(LocaleEnum.ru.value)],
         path: 'assets/translations',
         assetLoader: const CodegenLoader(),
         fallbackLocale: Locale(LocaleEnum.eng.value),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pet/features/introduction-screen/presentation/introduction.dart';
-import 'package:pet/features/introduction-screen/presentation/page/introduction_screen_page.dart';
+import 'package:game_box/features/introduction-screen/presentation/widgets/introduction.widget.dart';
+
+import 'widgets/introduction_screen_card.widget.dart';
 
 class IntroductionScreen extends StatefulWidget {
   const IntroductionScreen({super.key});
@@ -21,17 +22,17 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     return Introduction(
       key: _introductionScreenKey,
       pages: [
-        IntroductionScreenPage(
+        IntroductionScreenCard(
           buttonText: 'Next',
           imgPath: 'assets/images/welcome.png',
           onButtonTap: _moveNext,
         ),
-        IntroductionScreenPage(
+        IntroductionScreenCard(
           buttonText: 'Next',
           imgPath: 'assets/images/welcome2.png',
           onButtonTap: _moveNext,
         ),
-        IntroductionScreenPage(
+        IntroductionScreenCard(
           buttonText: 'Start',
           imgPath: 'assets/images/welcome3.png',
           onButtonTap: _moveNext,

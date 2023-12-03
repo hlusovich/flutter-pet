@@ -1,6 +1,6 @@
-import 'package:pet/features/tetris/features/game_field/domain/models/shape.model.dart';
-import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/rotation.enum.dart';
-import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/shape.enum.dart';
+import 'package:game_box/features/tetris/features/game_field/domain/models/shape.model.dart';
+import 'package:game_box/features/tetris/features/game_field/presentation/domain/enums/rotation.enum.dart';
+import 'package:game_box/features/tetris/features/game_field/presentation/domain/enums/shape.enum.dart';
 
 abstract final class RotationHelper {
   static Shape rotateShape({

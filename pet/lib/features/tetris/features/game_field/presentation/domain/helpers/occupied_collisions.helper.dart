@@ -1,4 +1,4 @@
-import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/collisions.helper.dart';
+import 'package:game_box/features/tetris/features/game_field/presentation/domain/helpers/collisions.helper.dart';
 
 abstract final class OccupiedCollisionsHelper {
   static bool isDownCollision<T>({

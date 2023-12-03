@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pet/shared/flow_menu/enum/flow_menu.enum.dart';
+import 'package:game_box/shared/flow_menu/enum/flow_menu.enum.dart';
 
 class CustomFlowDelegate extends FlowDelegate {
   static const _offset = 80.0;

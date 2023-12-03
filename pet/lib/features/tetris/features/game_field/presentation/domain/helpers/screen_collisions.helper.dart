@@ -1,5 +1,5 @@
-import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/direction.enum.dart';
-import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/game_field.helper.dart';
+import 'package:game_box/features/tetris/features/game_field/presentation/domain/enums/direction.enum.dart';
+import 'package:game_box/features/tetris/features/game_field/presentation/domain/helpers/game_field.helper.dart';
 
 abstract final class ScreenCollisionsHelper {
   static bool isCollision({
