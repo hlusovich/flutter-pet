@@ -7,7 +7,7 @@ abstract final class OccupiedCollisionsHelper {
     required int fieldWidth,
   }) {
     return coordinates.any(((coordinate) =>
-        CollisionsHelper.isOutOfFieldCollision(
+        CollisionsHelper.isOutOfField(
           coordinate: coordinate,
           maxCoordinate: occupied.length,
           fieldWidth: fieldWidth,
@@ -21,7 +21,7 @@ abstract final class OccupiedCollisionsHelper {
     required int fieldWidth,
   }) {
     return coordinates.any(((coordinate) =>
-        CollisionsHelper.isInsideOfFieldCollision(
+    CollisionsHelper.isInsideOfField(
           coordinate: coordinate,
           maxCoordinate: occupied.length,
         ) &&
@@ -34,7 +34,7 @@ abstract final class OccupiedCollisionsHelper {
     required int fieldWidth,
   }) {
     return coordinates.any(((coordinate) =>
-        CollisionsHelper.isInsideOfFieldCollision(
+    CollisionsHelper.isInsideOfField(
           coordinate: coordinate,
           maxCoordinate: occupied.length,
         ) &&
