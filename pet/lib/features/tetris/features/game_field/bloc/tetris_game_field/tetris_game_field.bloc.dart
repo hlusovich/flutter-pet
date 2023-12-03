@@ -31,6 +31,7 @@ class TetrisGameFieldBloc extends Bloc<TetrisGameFieldEvents, TetrisGameFieldSta
     on<TetrisUpdateOccupiedFields>(_onTetrisUpdateOccupiedFields);
     on<TetrisAddNewShape>(_onTetrisAddNewShape);
     on<TetrisUpdateCurrentShape>(_onTetrisTetrisUpdateCurrentShape);
+    on<TetrisAddAudioCallbackField>(_onTetrisAddAudioCallbackField);
     on<TetrisUpdateCurrentShapeByDirection>(_onTetrisTetrisUpdateCurrentShapeByDirection);
   }
 
@@ -40,6 +41,10 @@ class TetrisGameFieldBloc extends Bloc<TetrisGameFieldEvents, TetrisGameFieldSta
 
   void _onUpdateGameFieldSize(UpdateGameFieldSize event, Emitter<TetrisGameFieldState> emit) async {
     emit(state.copyWith(width: event.width, height: event.height));
+  }
+
+  void _onTetrisAddAudioCallbackField(TetrisAddAudioCallbackField event, Emitter<TetrisGameFieldState> emit) async {
+    emit(state.copyWith(audioCallback: event.audioCallback));
   }
 
   void _onTetrisTetrisUpdateCurrentShape(TetrisUpdateCurrentShape event, Emitter<TetrisGameFieldState> emit) async {

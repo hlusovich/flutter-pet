@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_box/core/domain/bloc/theme/theme.bloc.dart';
 import 'package:game_box/features/tetris/features/game_field/domain/models/shape.model.dart';
 import 'package:game_box/features/tetris/features/game_field/features/cell/presentation/cell.widget.dart';
 
@@ -14,6 +16,8 @@ class GameField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.read<ThemeBloc>().state.theme;
+
     return Column(
       children: [
         Expanded(
@@ -24,17 +28,17 @@ class GameField extends StatelessWidget {
             itemBuilder: (context, index) => Center(
               child: Padding(
                 padding: const EdgeInsets.all(2),
-                child: Builder(builder: (_) {
-                  final currentShape = shape;
+                    child: Builder(builder: (_) {
+                      final currentShape = shape;
 
-                  if (currentShape == null) {
-                    return const Cell();
-                  }
+                      if (currentShape == null) {
+                        return const Cell();
+                      }
 
-                  if (currentShape.coordinates.contains(index)) {
-                    return Cell(
-                      color: currentShape.color,
-                    );
+                      if (currentShape.coordinates.contains(index)) {
+                        return Cell(
+                          color: currentShape.color,
+                        );
                   }
 
                   final occupiedColor = occupiedCells[index];
@@ -45,12 +49,12 @@ class GameField extends StatelessWidget {
                     );
                   }
 
-                  return const Cell(
-                    color: Colors.redAccent,
+                  return Cell(
+                    color: theme.card,
                   );
                 }),
-              ),
-            ),
+                  ),
+                ),
           ),
         ),
       ],

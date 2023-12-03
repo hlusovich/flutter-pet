@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:game_box/core/entities/locale.entity.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_box/core/domain/bloc/theme/theme.bloc.dart';
+import 'package:game_box/core/domain/bloc/theme/theme.state.dart';
+import 'package:game_box/core/presentation/entities/locale.entity.dart';
 import 'package:game_box/features/tetris/presentation/tetris.widget.dart';
 import 'package:game_box/generated/codegen_loader.g.dart';
 import 'package:game_box/generated/locale_keys.g.dart';
@@ -34,21 +37,23 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MyHomePage(title: LocaleKeys.flutter_demo_home_page.tr()),
+      home: AppHome(title: LocaleKeys.flutter_demo_home_page.tr()),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class AppHome extends StatefulWidget {
+  const AppHome({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<AppHome> createState() => _AppHomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _AppHomeState extends State<AppHome> {
+  final themeBlock = ThemeBloc();
+
   void _setLocale() {
     final currentLanguage = context.locale.toLanguageTag();
 
@@ -61,12 +66,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: const Tetris(),
+    return BlocProvider.value(
+      value: themeBlock,
+      child: Builder(builder: (context) {
+        return BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: state.theme.background,
+              title: Text(widget.title),
+            ),
+            body: const Tetris(),
+          );
+        });
+      }),
     );
   }
 }
