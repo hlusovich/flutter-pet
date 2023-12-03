@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:game_box/shared/selection_dots/selection_dots.dart';
+import 'package:game_box/core/presentation/shared/selection_dots/selection_dots.dart';
 
 class Introduction extends StatefulWidget {
   static const _defaultBottomHeight = 130.0;

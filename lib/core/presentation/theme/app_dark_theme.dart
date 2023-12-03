@@ -8,4 +8,8 @@ final class DarkTheme implements ITheme {
   final background = AppColors.bgDark;
   @override
   final text = AppColors.white;
+  @override
+  final buttons = AppColors.blue0;
+  @override
+  final buttonsSplash = AppColorsWithOpacity.blue_50;
 }

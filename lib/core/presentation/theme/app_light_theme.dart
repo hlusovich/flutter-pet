@@ -8,4 +8,8 @@ class LightTheme implements ITheme {
   final background = AppColors.bgLight;
   @override
   final text = AppColors.grayLight;
+  @override
+  final buttons = AppColors.blue0;
+  @override
+  final buttonsSplash = AppColorsWithOpacity.blue_50;
 }

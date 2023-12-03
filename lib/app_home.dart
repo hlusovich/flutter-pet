@@ -4,8 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_box/core/domain/bloc/theme/theme.bloc.dart';
 import 'package:game_box/core/domain/bloc/theme/theme.state.dart';
 import 'package:game_box/core/presentation/entities/locale.entity.dart';
+import 'package:game_box/features/introduction-screen/presentation/introduction_screen.widget.dart';
+import 'package:game_box/features/localization/domain/bloc/localization.bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'features/tetris/presentation/tetris.widget.dart';
+import 'features/localization/domain/bloc/localization.events.dart';
 
 class AppHome extends StatefulWidget {
   const AppHome({super.key, required this.title});
@@ -18,21 +21,32 @@ class AppHome extends StatefulWidget {
 
 class _AppHomeState extends State<AppHome> {
   final themeBlock = ThemeBloc();
+  final localeBloc = LocalizationBloc();
 
-  void _setLocale() {
-    final currentLanguage = context.locale.toLanguageTag();
+  @override
+  void initState() {
+    super.initState();
 
-    if (currentLanguage == LocaleEnum.ru.value) {
-      context.setLocale(Locale(LocaleEnum.eng.value));
-    } else {
-      context.setLocale(Locale(LocaleEnum.ru.value));
-    }
+    _init();
+  }
+
+  Future<void> _init() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final String? storageLocale = sharedPreferences.getString('locale');
+    final locale =
+        LocaleEnum.values.firstWhere((element) => element.value == storageLocale, orElse: () => LocaleEnum.eng);
+
+    localeBloc.add(LocalizationSetContextCallback(context.setLocale));
+    localeBloc.add(LocalizationChange(locale));
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: themeBlock,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: themeBlock),
+        BlocProvider.value(value: localeBloc),
+      ],
       child: Builder(
         builder: (context) {
           return BlocBuilder<ThemeBloc, ThemeState>(
@@ -42,7 +56,7 @@ class _AppHomeState extends State<AppHome> {
                   backgroundColor: state.theme.background,
                   title: Text(widget.title),
                 ),
-                body: const Tetris(),
+                body: IntroductionScreen(),
               );
             },
           );

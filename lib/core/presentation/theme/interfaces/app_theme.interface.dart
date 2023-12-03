@@ -6,4 +6,8 @@ abstract interface class ITheme {
   Color get background;
 
   Color get text;
+
+  Color get buttons;
+
+  Color get buttonsSplash;
 }
