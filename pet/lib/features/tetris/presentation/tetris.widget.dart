@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_box/core/domain/bloc/theme/theme.bloc.dart';
 import 'package:game_box/features/tetris/domain/bloc/audio/tetris_audio.bloc.dart';
 import 'package:game_box/features/tetris/domain/bloc/audio/tetris_audio.events.dart';
 import 'package:game_box/features/tetris/features/game_field/bloc/tetris_game_field/tetris_game_field.bloc.dart';
@@ -26,6 +27,7 @@ class _TetrisState extends State<Tetris> {
     audioBloc = TetrisAudionBloc();
     gameFieldBloc.add(const TetrisAddNewShape());
     _addAudioCallback();
+    _runAudio();
     _startGame();
   }
 
@@ -54,30 +56,39 @@ class _TetrisState extends State<Tetris> {
         BlocProvider.value(value: gameFieldBloc),
         BlocProvider.value(value: audioBloc),
       ],
-      child: Scaffold(
-          backgroundColor: Colors.black,
-          body: Column(
-            children: [
-              Expanded(
-                child: Builder(builder: (context) {
-                  return BlocBuilder<TetrisGameFieldBloc, TetrisGameFieldState>(builder: (context, state) {
-                    return GameField(
-                      width: state.width,
-                      height: state.height,
-                      occupiedCells: state.occupiedCells,
-                      shape: state.currentShape,
-                    );
-                  });
-                }),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: GameControllers(
-                  bloc: gameFieldBloc,
+      child: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 400),
+          child: Scaffold(
+            backgroundColor: context.watch<ThemeBloc>().state.theme.background,
+            body: Column(
+              children: [
+                Expanded(
+                  child: Builder(builder: (context) {
+                    return BlocBuilder<TetrisGameFieldBloc, TetrisGameFieldState>(builder: (context, state) {
+                      return GameField(
+                        width: state.width,
+                        height: state.height,
+                        occupiedCells: state.occupiedCells,
+                        shape: state.currentShape,
+                      );
+                    });
+                  }),
                 ),
-              ),
-            ],
-          )),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: GameControllers(
+                    bloc: gameFieldBloc,
+                  ),
+                ),
+                const SizedBox(
+                  height: 24,
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

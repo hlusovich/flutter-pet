@@ -15,12 +15,12 @@ class TetrisAudionBloc extends Bloc<TetrisAudioEvents, TetrisAudioStates> {
 
   void onTetrisStartAudio(TetrisStartAudio event, Emitter<TetrisAudioStates> emit) async {
     themeAudioPlayer.setReleaseMode(ReleaseMode.loop);
-    themeAudioPlayer.play(AssetSource('audio/Tetris.mp3'));
+    await themeAudioPlayer.play(AssetSource('audio/Tetris.mp3'));
   }
 
   void onTetrisEndAudio(TetrisEndAudio event, Emitter<TetrisAudioStates> emit) async {
-    effectsPlayer.dispose();
-    themeAudioPlayer.dispose();
+    await effectsPlayer.dispose();
+    await themeAudioPlayer.dispose();
   }
 
   void onTetrisRemoveLineAudio(TetrisRemoveLineAudio event, Emitter<TetrisAudioStates> emit) async {

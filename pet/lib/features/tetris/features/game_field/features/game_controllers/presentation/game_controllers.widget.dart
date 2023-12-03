@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_box/core/domain/bloc/theme/theme.bloc.dart';
 import 'package:game_box/features/tetris/features/game_field/bloc/tetris_game_field/tetris_game_field.bloc.dart';
 import 'package:game_box/features/tetris/features/game_field/bloc/tetris_game_field/tetris_game_field.events.dart';
 import 'package:game_box/features/tetris/features/game_field/presentation/domain/enums/direction.enum.dart';
@@ -23,6 +25,8 @@ class GameControllers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.read<ThemeBloc>().state.theme;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,11 +40,11 @@ class GameControllers extends StatelessWidget {
             }
 
             if (ScreenCollisionsHelper.isCollision(
-                  direction: DirectionEnum.left,
-                  coordinates: currentShape.coordinates,
-                  fieldWidth: width,
-                  fieldHeight: height,
-                ) ||
+              direction: DirectionEnum.left,
+              coordinates: currentShape.coordinates,
+              fieldWidth: width,
+              fieldHeight: height,
+            ) ||
                 OccupiedCollisionsHelper.isLeftCollision(
                     coordinates: currentShape.coordinates, occupied: occupiedCells, fieldWidth: width)) {
               return;
@@ -48,8 +52,9 @@ class GameControllers extends StatelessWidget {
 
             bloc.add(const TetrisUpdateCurrentShapeByDirection(direction: DirectionEnum.left));
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios,
+            color: theme.text,
             size: 32,
           ),
         ),
@@ -71,8 +76,9 @@ class GameControllers extends StatelessWidget {
               bloc.add(TetrisUpdateCurrentShape(currentShape: rotatedShape));
             }
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.rotate_right,
+            color: theme.text,
             size: 40,
           ),
         ),
@@ -85,11 +91,11 @@ class GameControllers extends StatelessWidget {
             }
 
             if (ScreenCollisionsHelper.isCollision(
-                  direction: DirectionEnum.right,
-                  coordinates: currentShape.coordinates,
-                  fieldWidth: width,
-                  fieldHeight: height,
-                ) ||
+              direction: DirectionEnum.right,
+              coordinates: currentShape.coordinates,
+              fieldWidth: width,
+              fieldHeight: height,
+            ) ||
                 OccupiedCollisionsHelper.isRightCollision(
                     coordinates: currentShape.coordinates, occupied: occupiedCells, fieldWidth: width)) {
               return;
@@ -97,8 +103,9 @@ class GameControllers extends StatelessWidget {
 
             bloc.add(const TetrisUpdateCurrentShapeByDirection(direction: DirectionEnum.right));
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_forward_ios,
+            color: theme.text,
             size: 32,
           ),
         ),

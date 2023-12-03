@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:game_box/core/entities/locale.entity.dart';
-import 'package:game_box/features/tetris/presentation/tetris.widget.dart';
+import 'package:game_box/app_home.dart';
+import 'package:game_box/core/presentation/entities/locale.entity.dart';
 import 'package:game_box/generated/codegen_loader.g.dart';
 import 'package:game_box/generated/locale_keys.g.dart';
 
@@ -34,39 +34,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MyHomePage(title: LocaleKeys.flutter_demo_home_page.tr()),
+      home: AppHome(title: LocaleKeys.flutter_demo_home_page.tr()),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  void _setLocale() {
-    final currentLanguage = context.locale.toLanguageTag();
-
-    if (currentLanguage == LocaleEnum.ru.value) {
-      context.setLocale(Locale(LocaleEnum.eng.value));
-    } else {
-      context.setLocale(Locale(LocaleEnum.ru.value));
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: const Tetris(),
-    );
-  }
-}

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_box/core/domain/bloc/theme/theme.bloc.dart';
 import 'package:game_box/features/tetris/features/game_field/domain/models/shape.model.dart';
 import 'package:game_box/features/tetris/features/game_field/features/cell/presentation/cell.widget.dart';
 
@@ -14,46 +16,42 @@ class GameField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: GridView.builder(
-            itemCount: itemCount,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: width),
-            itemBuilder: (context, index) => Center(
-              child: Padding(
-                padding: const EdgeInsets.all(2),
-                child: Builder(builder: (_) {
-                  final currentShape = shape;
+    final theme = context.read<ThemeBloc>().state.theme;
 
-                  if (currentShape == null) {
-                    return const Cell();
-                  }
+    return GridView.builder(
+      itemCount: itemCount,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: width),
+      itemBuilder: (context, index) => Center(
+        child: Padding(
+          padding: const EdgeInsets.all(2),
+          child: Builder(builder: (_) {
+            final currentShape = shape;
 
-                  if (currentShape.coordinates.contains(index)) {
-                    return Cell(
-                      color: currentShape.color,
-                    );
-                  }
+            if (currentShape == null) {
+              return const Cell();
+            }
 
-                  final occupiedColor = occupiedCells[index];
+            if (currentShape.coordinates.contains(index)) {
+              return Cell(
+                color: currentShape.color,
+              );
+            }
 
-                  if (occupiedColor != null) {
-                    return Cell(
-                      color: occupiedColor,
-                    );
-                  }
+            final occupiedColor = occupiedCells[index];
 
-                  return const Cell(
-                    color: Colors.redAccent,
-                  );
-                }),
-              ),
-            ),
-          ),
+            if (occupiedColor != null) {
+              return Cell(
+                color: occupiedColor,
+              );
+            }
+
+            return Cell(
+              color: theme.card,
+            );
+          }),
         ),
-      ],
+      ),
     );
   }
 }
