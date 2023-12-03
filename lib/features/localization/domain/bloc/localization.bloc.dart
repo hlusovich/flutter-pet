@@ -6,7 +6,6 @@ import 'package:game_box/features/localization/domain/bloc/localization.events.d
 import 'package:game_box/features/localization/domain/bloc/localization.state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-typedef contextCallbackType = Future<void> Function(Locale val);
 
 class LocalizationBloc extends Bloc<LocalizationEvents, LocalizationState> {
   LocalizationBloc() : super(const LocalizationState()) {
@@ -29,7 +28,7 @@ class LocalizationBloc extends Bloc<LocalizationEvents, LocalizationState> {
     final currentLanguage = state.locale?.value;
 
     if (currentLanguage != null) {
-      state.contextCallback?.call(Locale(currentLanguage));
+      state.contextCallback?.call();
     }
   }
 }

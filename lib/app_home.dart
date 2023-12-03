@@ -36,7 +36,6 @@ class _AppHomeState extends State<AppHome> {
     final locale =
         LocaleEnum.values.firstWhere((element) => element.value == storageLocale, orElse: () => LocaleEnum.eng);
 
-    localeBloc.add(LocalizationSetContextCallback(context.setLocale));
     localeBloc.add(LocalizationChange(locale));
   }
 

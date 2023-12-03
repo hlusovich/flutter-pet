@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_box/core/presentation/entities/locale.entity.dart';
@@ -19,7 +20,9 @@ class LocalizationList extends StatelessWidget {
           text: 'English',
           isSelected: localization == LocaleEnum.eng,
           onTap: () {
-            context.read<LocalizationBloc>().add(const LocalizationChange(LocaleEnum.eng));
+            final localizationBloc = context.read<LocalizationBloc>();
+            localizationBloc.add(LocalizationSetContextCallback(() => context.setLocale(Locale(LocaleEnum.eng.value))));
+            localizationBloc.add(const LocalizationChange(LocaleEnum.eng));
           },
         ),
         const SizedBox(
@@ -30,7 +33,9 @@ class LocalizationList extends StatelessWidget {
           text: 'Russian',
           isSelected: localization == LocaleEnum.ru,
           onTap: () {
-            context.read<LocalizationBloc>().add(const LocalizationChange(LocaleEnum.ru));
+            final localizationBloc = context.read<LocalizationBloc>();
+            localizationBloc.add(LocalizationSetContextCallback(() => context.setLocale(Locale(LocaleEnum.ru.value))));
+            localizationBloc.add(const LocalizationChange(LocaleEnum.ru));
           },
         ),
       ],

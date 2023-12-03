@@ -59,7 +59,32 @@ class IntroductionScreen extends StatelessWidget {
               )),
           IntroductionScreenCard(
             buttonText: 'Start',
-            imgPath: 'assets/images/welcome3.png',
+            imgPath: 'assets/images/gameBox.png',
+            body: Container(
+              constraints: const BoxConstraints(maxWidth: 400),
+              child: Column(
+                children: [
+                  Text(
+                    LocaleKeys.introduce.tr(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: context.read<ThemeBloc>().state.theme.text,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 24,
+                    ),
+                  ),
+                  const SizedBox(height:16),
+                  ImageSelectItem(
+                    imgPath: 'assets/images/tetris.png',
+                    text: 'Tetris',
+                    isSelected: false,
+                    onTap: () {
+
+                    },
+                  ),
+                ],
+              ),
+            ),
             onButtonTap: _moveNext,
           ),
         ],

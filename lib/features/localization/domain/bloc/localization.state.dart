@@ -5,12 +5,12 @@ import 'package:game_box/features/localization/domain/bloc/localization.bloc.dar
 
 final class LocalizationState {
   final LocaleEnum? locale;
-  final contextCallbackType? contextCallback;
+  final VoidCallback? contextCallback;
 
   const LocalizationState({this.locale, this.contextCallback});
 
   LocalizationState copyWith({
-    contextCallbackType? contextCallback,
+    VoidCallback? contextCallback,
     LocaleEnum? locale,
   }) {
     return LocalizationState(
