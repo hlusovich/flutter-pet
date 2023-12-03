@@ -1,14 +1,14 @@
 
 
 abstract final class CollisionsHelper {
-  static bool isInsideOfFieldCollision({
+  static bool isInsideOfField({
     required int coordinate,
     required int maxCoordinate,
   }) {
     return maxCoordinate > coordinate && coordinate > 0;
   }
 
-  static bool isOutOfFieldCollision({
+  static bool isOutOfField({
     required int coordinate,
     required int maxCoordinate,
     required int fieldWidth,

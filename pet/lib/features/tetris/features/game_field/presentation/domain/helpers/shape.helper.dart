@@ -125,12 +125,11 @@ abstract final class PositionHelper {
 
     for (int i = 1; i < maxCoordinatesLength; i++) {
       if (i == maxCoordinatesLength - 2) {
-        shapeCoordinates.add(position + fieldWidth - 1);
+        shapeCoordinates.add(shapeCoordinates.last + fieldWidth);
       } else {
         shapeCoordinates.add(shapeCoordinates.last + 1);
       }
     }
-
     return shapeCoordinates;
   }
 }
