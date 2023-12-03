@@ -1,11 +1,19 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:pet/shared/selection_dots/selection_dots.dart';
+import 'package:game_box/shared/selection_dots/selection_dots.dart';
 
 class Introduction extends StatefulWidget {
   static const _defaultBottomHeight = 130.0;
   static const _defaultAnimationDuration = 500;
+
+  final Axis scrollDirection;
+  final List<Widget> pages;
+  final double bottomHeight;
+  final int animationDuration;
+  final int? selectedPage;
+  final Color dotsColor;
+  final Color dotsSelectedColor;
 
   const Introduction({
     super.key,
@@ -18,16 +26,6 @@ class Introduction extends StatefulWidget {
     this.animationDuration = _defaultAnimationDuration,
   });
 
-  final Axis scrollDirection;
-  final List<Widget> pages;
-  final double bottomHeight;
-
-  final int animationDuration;
-  final int? selectedPage;
-
-  final Color dotsColor;
-  final Color dotsSelectedColor;
-
   @override
   State<Introduction> createState() => IntroductionState();
 }
@@ -35,6 +33,20 @@ class Introduction extends StatefulWidget {
 class IntroductionState extends State<Introduction> {
   int _selectedPage = 0;
   late final PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _selectedPage = min(widget.pages.length - 1, (widget.selectedPage ?? 0));
+    _pageController = PageController(initialPage: _selectedPage);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   void _pageSelectHandler(int index) async {
     await _pageController.animateToPage(
@@ -58,20 +70,6 @@ class IntroductionState extends State<Introduction> {
     if (_selectedPage < widget.pages.length - 1) {
       _pageSelectHandler(_selectedPage + 1);
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _selectedPage = min(widget.pages.length - 1, (widget.selectedPage ?? 0));
-    _pageController = PageController(initialPage: _selectedPage);
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
   }
 
   @override

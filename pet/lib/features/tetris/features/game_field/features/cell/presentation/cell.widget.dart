@@ -1,9 +1,9 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 class Cell extends StatelessWidget {
   final Color color;
 
-  const Cell({required this.color, super.key});
+  const Cell({this.color = Colors.black, super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class IntroductionScreenPage extends StatelessWidget {
-  const IntroductionScreenPage({
+class IntroductionScreenCard extends StatelessWidget {
+  const IntroductionScreenCard({
     super.key,
     required this.onButtonTap,
     required this.imgPath,

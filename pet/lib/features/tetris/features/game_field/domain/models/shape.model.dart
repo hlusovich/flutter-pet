@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
-import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/rotation.enum.dart';
-import 'package:pet/features/tetris/features/game_field/presentation/domain/enums/shape.enum.dart';
+import 'package:game_box/features/tetris/features/game_field/presentation/domain/enums/rotation.enum.dart';
+import 'package:game_box/features/tetris/features/game_field/presentation/domain/enums/shape.enum.dart';
 
 final class Shape extends Equatable {
   final Color color;

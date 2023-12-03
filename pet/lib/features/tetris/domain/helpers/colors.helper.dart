@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:pet/features/tetris/features/game_field/domain/enums/colors.constants.dart';
+import 'package:game_box/features/tetris/features/game_field/domain/enums/colors.constants.dart';
 
 abstract final class ColorsHelper {
   static Color getRandomColor() {

@@ -1,5 +1,5 @@
-import 'package:pet/features/tetris/features/game_field/domain/models/shape.model.dart';
-import 'package:pet/features/tetris/features/game_field/presentation/domain/helpers/collisions.helper.dart';
+import 'package:game_box/features/tetris/features/game_field/domain/models/shape.model.dart';
+import 'package:game_box/features/tetris/features/game_field/presentation/domain/helpers/collisions.helper.dart';
 
 final class RotationCollisionHelper {
   static bool canBeRotated<T>({

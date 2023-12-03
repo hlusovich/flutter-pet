@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:pet/shared/flow_menu/entities/menu_item.entity.dart';
-import 'package:pet/shared/flow_menu/enum/flow_delegate_controller.dart';
-import 'package:pet/shared/flow_menu/enum/flow_menu.enum.dart';
+import 'package:game_box/shared/flow_menu/entities/menu_item.entity.dart';
+import 'package:game_box/shared/flow_menu/enum/flow_delegate_controller.dart';
+import 'package:game_box/shared/flow_menu/enum/flow_menu.enum.dart';
 
 class FlowMenu extends StatefulWidget {
   const FlowMenu({super.key, required this.direction, required this.menuItems});
