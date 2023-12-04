@@ -1,4 +1,6 @@
 {
     "you_have_pushed_the_button_this_many_times" : "You have pushed the button this many times:",
-    "flutter_demo_home_page" : "Flutter Demo Home Page"
+    "flutter_demo_home_page" : "GameBox Demo Home Page",
+    "introduce" : "I would like to introduce you to my GameBox project. Please choose a game and have fun.",
+    "choose_game" : "Choose a game."
 }

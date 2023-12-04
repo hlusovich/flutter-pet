@@ -1,17 +1,22 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_box/core/domain/bloc/theme/theme.bloc.dart';
+import 'package:game_box/core/presentation/constants/offset.constants.dart';
 
 class IntroductionScreenCard extends StatelessWidget {
+  final VoidCallback onButtonTap;
+  final String imgPath;
+  final String buttonText;
+  final Widget? body;
+
   const IntroductionScreenCard({
     super.key,
     required this.onButtonTap,
     required this.imgPath,
     required this.buttonText,
+    this.body,
   });
-
-  final VoidCallback onButtonTap;
-
-  final String imgPath;
-  final String buttonText;
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +26,18 @@ class IntroductionScreenCard extends StatelessWidget {
       children: [
         Column(
           children: [
-            const SizedBox(
-              height: 64,
+            Container(
+              constraints: const BoxConstraints(maxHeight: 400),
+              child: Image.asset(
+                imgPath,
+              ),
             ),
-            Image.asset(imgPath),
+            body ??
+                const SizedBox(
+                  height: 0,
+                ),
             const SizedBox(
-              height: 32,
+              height: OffsetConstants.l,
             ),
           ],
         ),
@@ -37,7 +48,7 @@ class IntroductionScreenCard extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4.0),
                 ),
-                backgroundColor: Colors.blue,
+                backgroundColor:  context.read<ThemeBloc>().state.theme.buttons,
               ),
               onPressed: onButtonTap,
               child: Text(
@@ -45,9 +56,6 @@ class IntroductionScreenCard extends StatelessWidget {
                 style: const TextStyle(color: Colors.white, fontSize: 20),
               ),
             ),
-            const SizedBox(
-              height: 125,
-            )
           ],
         ),
       ],

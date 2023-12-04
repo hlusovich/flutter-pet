@@ -17,7 +17,7 @@ enum DifficultiesEnum {
   int get updateSpeed {
     switch (this) {
       case DifficultiesEnum.easy:
-        return 400;
+        return 900;
       case DifficultiesEnum.medium:
         return 300;
       case DifficultiesEnum.hard:

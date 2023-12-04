@@ -33,6 +33,7 @@ abstract class AppColorsWithOpacity {
   static const gray_10 = Color.fromRGBO(179, 188, 202, 0.1);
   static const gray_25 = Color.fromRGBO(179, 188, 202, 0.25);
   static const green_1 = Color.fromRGBO(54, 195, 170, 0.1);
+  static const blue_50 = Color.fromRGBO(91, 150, 240, 0.5);
   static const white_54 = Colors.white54;
   static const whiteGray_40 = Color.fromRGBO(243, 245, 249, 0.4);
   static const whiteGray0_0 = Color.fromRGBO(243, 245, 249, 1);

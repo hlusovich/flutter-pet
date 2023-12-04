@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:game_box/shared/flow_menu/enum/flow_menu.enum.dart';
+import 'package:game_box/core/presentation/shared/flow_menu/enum/flow_menu.enum.dart';
 
 class CustomFlowDelegate extends FlowDelegate {
   static const _offset = 80.0;
@@ -27,7 +27,6 @@ class CustomFlowDelegate extends FlowDelegate {
             context.size.width - (context.getChildSize(i)?.width ?? 0);
         final dx = (context.getChildSize(i)?.width ?? 0) * i;
         final double gap = start + direction.value * animation.value * dx;
-
         context.paintChild(i, transform: Matrix4.translationValues(gap, 0, 0));
       }
     }
