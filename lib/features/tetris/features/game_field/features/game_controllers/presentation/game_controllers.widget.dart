@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_box/core/domain/bloc/theme/theme.bloc.dart';
+import 'package:game_box/core/presentation/constants/icons.constants.dart';
 import 'package:game_box/features/tetris/features/game_field/bloc/tetris_game_field/tetris_game_field.bloc.dart';
 import 'package:game_box/features/tetris/features/game_field/bloc/tetris_game_field/tetris_game_field.events.dart';
 import 'package:game_box/features/tetris/features/game_field/presentation/domain/enums/direction.enum.dart';
@@ -55,7 +56,7 @@ class GameControllers extends StatelessWidget {
           icon: Icon(
             Icons.arrow_back_ios,
             color: theme.text,
-            size: 32,
+            size: IconsConstants.l,
           ),
         ),
         IconButton(
@@ -79,7 +80,7 @@ class GameControllers extends StatelessWidget {
           icon: Icon(
             Icons.rotate_right,
             color: theme.text,
-            size: 40,
+            size: IconsConstants.l + IconsConstants.s,
           ),
         ),
         IconButton(
@@ -106,7 +107,7 @@ class GameControllers extends StatelessWidget {
           icon: Icon(
             Icons.arrow_forward_ios,
             color: theme.text,
-            size: 32,
+            size: IconsConstants.l,
           ),
         ),
       ],

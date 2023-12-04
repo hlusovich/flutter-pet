@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_box/core/domain/bloc/theme/theme.bloc.dart';
+import 'package:game_box/core/presentation/constants/offset.constants.dart';
 import 'package:game_box/core/presentation/entities/locale.entity.dart';
 import 'package:game_box/core/presentation/shared/image_select_item/image_select_item.dart';
 import 'package:game_box/features/introduction-screen/presentation/widgets/introduction.widget.dart';
@@ -9,6 +10,7 @@ import 'package:game_box/features/localization/domain/bloc/localization.bloc.dar
 import 'package:game_box/features/localization/domain/bloc/localization.state.dart';
 import 'package:game_box/features/localization/presentation/localization_list.dart';
 import 'package:game_box/generated/locale_keys.g.dart';
+import 'package:game_box/routing/enums/routing.enum.dart';
 
 import 'widgets/introduction_screen_card.widget.dart';
 
@@ -31,17 +33,24 @@ class IntroductionScreen extends StatelessWidget {
           IntroductionScreenCard(
             buttonText: 'Next',
             imgPath: 'assets/images/welcome3.png',
-            body: Container(
-              constraints: const BoxConstraints(maxWidth: 700),
-              child: Text(
-                LocaleKeys.introduce.tr(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: context.read<ThemeBloc>().state.theme.text,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 24,
+            body: Column(
+              children: [
+                const SizedBox(
+                  height: OffsetConstants.m,
                 ),
-              ),
+                Container(
+                  constraints: const BoxConstraints(maxWidth: 700),
+                  child: Text(
+                    LocaleKeys.introduce.tr(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: context.read<ThemeBloc>().state.theme.text,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ],
             ),
             onButtonTap: _moveNext,
           ),
@@ -65,27 +74,27 @@ class IntroductionScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    LocaleKeys.introduce.tr(),
+                    LocaleKeys.choose_game.tr(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: context.read<ThemeBloc>().state.theme.text,
                       fontWeight: FontWeight.w500,
-                      fontSize: 24,
+                      fontSize: 20,
                     ),
                   ),
-                  const SizedBox(height:16),
+                  const SizedBox(height: OffsetConstants.m),
                   ImageSelectItem(
                     imgPath: 'assets/images/tetris.png',
                     text: 'Tetris',
                     isSelected: false,
                     onTap: () {
-
+                      Navigator.of(context).pushNamed(RoutingEnum.tetris.name);
                     },
                   ),
                 ],
               ),
             ),
-            onButtonTap: _moveNext,
+            onButtonTap: () => Navigator.of(context).pushNamed(RoutingEnum.tetris.name),
           ),
         ],
       ),

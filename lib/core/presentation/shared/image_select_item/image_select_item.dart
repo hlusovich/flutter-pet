@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_box/core/domain/bloc/theme/theme.bloc.dart';
+import 'package:game_box/core/presentation/constants/offset.constants.dart';
 import 'package:game_box/core/presentation/theme/constants/app_colors_const.dart';
 
 class ImageSelectItem extends StatelessWidget {
@@ -33,8 +34,8 @@ class ImageSelectItem extends StatelessWidget {
           child: Row(
             children: [
               const SizedBox(
-                width: 24,
-                height: 48,
+                width: OffsetConstants.m + OffsetConstants.s,
+                height: OffsetConstants.m + OffsetConstants.l,
               ),
               Container(
                 height: 32,
@@ -54,7 +55,7 @@ class ImageSelectItem extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                width: 24,
+                width: OffsetConstants.m + OffsetConstants.s,
               ),
             ],
           ),

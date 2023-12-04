@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_box/core/domain/bloc/theme/theme.bloc.dart';
+import 'package:game_box/core/presentation/constants/offset.constants.dart';
 
 class IntroductionScreenCard extends StatelessWidget {
   final VoidCallback onButtonTap;
@@ -36,7 +37,7 @@ class IntroductionScreenCard extends StatelessWidget {
                   height: 0,
                 ),
             const SizedBox(
-              height: 32,
+              height: OffsetConstants.l,
             ),
           ],
         ),

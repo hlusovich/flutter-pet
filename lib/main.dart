@@ -2,8 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:game_box/app_home.dart';
 import 'package:game_box/core/presentation/entities/locale.entity.dart';
+import 'package:game_box/features/tetris/presentation/tetris.widget.dart';
 import 'package:game_box/generated/codegen_loader.g.dart';
 import 'package:game_box/generated/locale_keys.g.dart';
+import 'package:game_box/routing/routing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -38,7 +40,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: AppHome(title: LocaleKeys.flutter_demo_home_page.tr()),
+      routes: routes,
     );
   }
 }

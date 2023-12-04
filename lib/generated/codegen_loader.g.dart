@@ -17,11 +17,13 @@ class CodegenLoader extends AssetLoader {
   static const Map<String, dynamic> en = {
     "you_have_pushed_the_button_this_many_times": "You have pushed the button this many times:",
     "flutter_demo_home_page": "GameBox Demo Home Page",
+    "choose_game": "Choose a game.",
     "introduce": "I would like to introduce you to my GameBox project. Please choose a game and have fun."
   };
   static const Map<String, dynamic> ru = {
     "you_have_pushed_the_button_this_many_times": "Вы нажали кнопку раз:",
     "flutter_demo_home_page": "ИгроКоробка Домашняя Страница",
+    "choose_game": "Выберите игру.",
     "introduce": "Представляю вам свой проект ИгроКоробка.Выберите игру и получайте удовольствие."
   };
   static const Map<String, Map<String, dynamic>> mapLocales = {"en": en, "ru": ru};

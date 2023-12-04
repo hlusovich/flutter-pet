@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_box/core/presentation/constants/offset.constants.dart';
 import 'package:game_box/core/presentation/entities/locale.entity.dart';
 import 'package:game_box/core/presentation/shared/image_select_item/image_select_item.dart';
 import 'package:game_box/features/localization/domain/bloc/localization.bloc.dart';
@@ -26,7 +27,7 @@ class LocalizationList extends StatelessWidget {
           },
         ),
         const SizedBox(
-          height: 16,
+          height: OffsetConstants.m ,
         ),
         ImageSelectItem(
           imgPath: 'assets/images/russia.png',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_box/core/domain/bloc/theme/theme.bloc.dart';
+import 'package:game_box/core/presentation/constants/icons.constants.dart';
 import 'package:game_box/core/presentation/shared/flow_menu/entities/menu_item.entity.dart';
 import 'package:game_box/core/presentation/shared/flow_menu/enum/flow_delegate_controller.dart';
 import 'package:game_box/core/presentation/shared/flow_menu/enum/flow_menu.enum.dart';
@@ -66,7 +67,7 @@ class _FlowMenuState extends State<FlowMenu> with TickerProviderStateMixin {
         child: Icon(
           item.icon,
           color: Colors.white,
-          size: 24.0,
+          size: IconsConstants.s + IconsConstants.m,
         ),
       ),
     );
